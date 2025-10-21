@@ -1,0 +1,43 @@
+
+function showOrHide() 
+    let showpass = document.getElementById("pass");
+    let check = document.getElementById("showpassword");
+    if (check.checked) {
+      showpass.type = "text";
+    } else {
+      showpass.type = "password";
+    }
+  }
+
+function login() {
+    let loginuser = ""
+    let username = document.getElementById("emailaddress").value;
+    let password = document.getElementById("password").value;
+  
+    let found = false;
+    let i = 0;
+  
+    while (!found && i < userdata.length)
+      loginuser = userdata[i];
+      if (loginuser.hasOwnProperty("name") && loginuser.hasOwnProperty("password"))
+        if (loginuser.name === username && loginuser.password === password) {
+          found = true;
+        }
+      }
+      i++;
+    }
+  
+    if (found) {
+      alert(`こんにちは。${username}さん。`);
+      console.log(`logined is ${username}`);
+      document.getElementById("user").textContent = "ユーザー名:"+loginuser.name;
+      document.getElementById("age").textContent = "年齢:"+loginuser.age;
+      document.getElementById("email").textContent = "Eメール:"+loginuser.email;
+      document.getElementById("password2").textContent = "パスワード:"+loginuser.password;
+    } else {
+        alert("ログインに失敗しました。入力している内容がデータと一致しませんでした。間違いがない場合は、ユーザーデータが破損している可能性があります。入力内容に誤りのない場合は、javascriptファイルのuserdata変数を確認してください。\nEnglish...Login failed. Data in the user data variable may be corrupted or entered incorrectly. If there are no typos in what you entered, please check the userdata variable in javascript.");
+        console.log("Login failed. Data in the user data variable may be corrupted or entered incorrectly. If there are no typos in what you entered, please check the userdata variable in javascript.");
+
+    }
+  }
+  
