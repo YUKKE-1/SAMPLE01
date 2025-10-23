@@ -27,17 +27,67 @@ function login() {
       i++;
     }
   
-    if (found) {
-      alert(`こんにちは。${username}さん。`);
-      console.log(`logined is ${username}`);
-      document.getElementById("user").textContent = "ユーザー名:"+loginuser.name;
-      document.getElementById("age").textContent = "年齢:"+loginuser.age;
-      document.getElementById("email").textContent = "Eメール:"+loginuser.email;
-      document.getElementById("password2").textContent = "パスワード:"+loginuser.password;
-    } else {
-        alert("ログインに失敗しました。入力している内容がデータと一致しませんでした。間違いがない場合は、ユーザーデータが破損している可能性があります。入力内容に誤りのない場合は、javascriptファイルのuserdata変数を確認してください。\nEnglish...Login failed. Data in the user data variable may be corrupted or entered incorrectly. If there are no typos in what you entered, please check the userdata variable in javascript.");
-        console.log("Login failed. Data in the user data variable may be corrupted or entered incorrectly. If there are no typos in what you entered, please check the userdata variable in javascript.");
+var login = function() {
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var userInfo = { "email": email, "password": password };
+    Nebula.User.login(userInfo)
+        .then(function(user) {
+            window.location.href = "app.html";
+        })
+        .catch(function(e) {
+            alert(e.statusText);
+        });
+};
 
+var signup = function() {
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var password_confirmation = $("#password_confirm").val();
+
+    if (password !== password_confirmation) {
+        alert("Passwords does not match.");
+        return;
     }
-  }
-  
+
+    var user = new Nebula.User();
+    user.set("email", email);
+    user.set("password", password);
+    user.register()
+        .then(function(u) {
+            alert("User registered.");
+            window.location.href = "index.html";
+        })
+        .catch(function(e) {
+            alert(e.statusText);
+            clear();
+        })
+};
+
+init: function () {
+    var self = this;
+
+   Nebula.User.current()
+        .then(function(user) {
+            if (user === null) {
+                window.location.href = "index.html"; // 未ログイン
+                return;
+            }
+            self.user = user; // ユーザ情報保存
+            self.initApp();
+        })
+        .catch(function () {
+            window.location.href = "index.html"; // 未ログイン
+        });
+},
+
+logout: function() {
+    Nebula.User.logout()
+        .then(function() {
+            window.location.href = "index.html";
+        })
+        .catch(function(e) {
+            window.location.href = "index.html";
+        })
+},
+
