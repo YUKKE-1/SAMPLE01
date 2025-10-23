@@ -91,3 +91,14 @@ logout: function() {
         })
 },
 
+
+  // ログイン処理
+    <script language="JavaScript" type="text/javascript">
+        function nextPage() {
+            id = document.login_form.id.value
+            pwd = document.login_form.pass.value;
+            location.href = id + pwd + ".html";
+        }
+    </script>
+
+
